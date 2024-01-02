@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator), typeof(BoxCollider2D))]
+
 public class EnemyMover : MonoBehaviour
 {
     private readonly string _isChasing = "isChasing";
     private readonly string _hitTrigger = "hit";
-    private readonly string _playerTag = "Player";
-    private readonly string _waypointTag = "Waypoint";
-    private readonly int _playerLayerMask = 1<<8;
 
+    [SerializeField] private int _playerLayerMask;
     [SerializeField] private Transform[] _waypoints;
     [SerializeField] private float _speed = 2f;
 
@@ -20,7 +20,6 @@ public class EnemyMover : MonoBehaviour
     private Transform _targetPosition;
     private int _visionRange = 10;
     private Animator _animator;
-
     private BoxCollider2D _collider;
 
     private void Awake()
@@ -45,9 +44,9 @@ public class EnemyMover : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(_waypointTag))
+        if (collision.TryGetComponent(out Waypoint collidedWaypoint))
         {
-            if (collision.GetComponent<Waypoint>().Number == _waypoints[_currentPoint].GetComponent<Waypoint>().Number)
+            if (collidedWaypoint.Number == _waypoints[_currentPoint].GetComponent<Waypoint>().Number)
             {
                 _currentPoint = GetNextPointNumber();
             }
@@ -56,7 +55,7 @@ public class EnemyMover : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag(_playerTag))
+        if (collision.collider.TryGetComponent(out Player _))
         {
             _animator.SetTrigger(_hitTrigger);
             _isAlive = false;

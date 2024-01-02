@@ -4,6 +4,8 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlayerCollisionManager))]
+
 public class Player : MonoBehaviour
 {
     private int _health = 3;

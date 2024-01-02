@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    private readonly string _playerTag = "Player";
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag(_playerTag))
+        if (collision.collider.TryGetComponent(out Player _))
         {
             Destroy(gameObject);
         }

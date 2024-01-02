@@ -193,5 +193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d5788366efb845b282d478314572e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerLayerMask: 8
   _waypoints: []
   _speed: 2
